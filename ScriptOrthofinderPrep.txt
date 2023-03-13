@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#replace -
+sed -i -e 's/-/_/g' ./Acha_genomeAssembly.fna
+
+#replace (
+sed -i -e 's/(/_/g' ./Acha_genomeAssembly.fna
+
+#replace )
+sed -i -e 's/)/_/g' ./Acha_genomeAssembly.fna
