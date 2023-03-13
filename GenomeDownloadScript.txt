@@ -24,4 +24,9 @@ while read -r GenomeLine; do
 
 	#Download genomes, filename and URL variables in $filename and $transcriptUrl
 	wget -O $filename $transcriptUrl
+
+	#Unzip files
+	gzip -d $filename
+
+
 done <GenomeList.txt
