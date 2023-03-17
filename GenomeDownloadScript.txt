@@ -28,5 +28,9 @@ while read -r GenomeLine; do
 	#Unzip files
 	gzip -d $filename
 
+	#New Folder for unedited genomes
+	mkdir OriginalGenomes
 
+	cp $filename OriginalGenomes
+	
 done <GenomeList.txt
