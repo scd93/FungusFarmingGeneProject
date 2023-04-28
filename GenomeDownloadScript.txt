@@ -29,7 +29,8 @@ while read -r GenomeLine; do
 
 	#New Folder for unedited genomes
 	mkdir OriginalGenomes
-
+	
+	mv $filename ./OriginalGenomes/
 	mv $speciesCode'_genomeAssembly.fna' ./OriginalGenomes/
 	
 done <GenomeList.txt
