@@ -10,17 +10,16 @@ while read -r GenomeLine; do
 	#Take file and separate from name after comma, transcript Url variable
 	export transcriptUrl=`echo "$GenomeLine" | awk -F',' '{print $1}'`
 
-	echo $filename
 
 	#Take ID of file after comma in list, identifying variable
 	export speciesCode=`echo "$GenomeLine" | awk -F',' '{print $2}'`
 
-	echo $filename
+	echo The species code is $speciesCode
 
 	#Name file, filename variable
 	export filename=$speciesCode'_genomeAssembly.fna.gz'
 
-	echo $filename
+	echo The filename is $filename
 
 	#Download genomes, filename and URL variables in $filename and $transcriptUrl
 	wget -O $filename $transcriptUrl
@@ -32,5 +31,6 @@ while read -r GenomeLine; do
 	mkdir OriginalGenomes
 
 	cp $filename OriginalGenomes
+	cp $speciesCode'_genomeAssembly.fna'
 	
 done <GenomeList.txt

@@ -1,0 +1,24 @@
+#!/bin/bash
+ 
+#Put all genomes through using transdecoder to convert nucleotides to AA
+#./TransDecoder-TransDecoder-v5.7.0/TransDecoder.LongOrfs -t ./EditedGenomes/Ccos_genomeAssembly.fna
+
+#./TransDecoder-TransDecoder-v5.7.0/TransDecoder.Predict -t ./EditedGenomes/Ccos_genomeAssembly.fna --single_best_only
+
+
+
+
+
+while read -r GenomeLine; do
+
+	export speciesCode=`echo "$GenomeLine" | awk -F',' '{print $2}'`
+
+	#Extract long ORFs
+	./TransDecoder-TransDecoder-v5.7.0/TransDecoder.LongOrfs -t ./EditedGenomes/$speciesCode"_genomeAssembly.fna"
+	#Predict likely coding regions
+	./TransDecoder-TransDecoder-v5.7.0/TransDecoder.Predict -t ./EditedGenomes/$speciesCode"_genomeAssembly.fna --single_best_only"
+
+	mkdir ./TransDecoderGenomes
+	mv  $speciesCode"_genomeAssembly.fna.transdecoder_dir" TransDecoderGenomes/$speciesCode"_genomeAssembly.fna.transdecoder_dir"
+	
+done <GenomeList.txt
