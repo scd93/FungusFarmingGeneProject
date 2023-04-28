@@ -23,4 +23,4 @@ https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/217/595/GCF_000217595.1_Lhum_UM
 https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/013/373/865/GCF_013373865.1_ASM1337386v2/GCF_013373865.1_ASM1337386v2_cds_from_genomic.fna.gz,Mpha
 https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/006/095/GCF_002006095.1_ASM200609v1/GCF_002006095.1_ASM200609v1_cds_from_genomic.fna.gz,Pgra
 https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/949/405/GCF_000949405.1_V.emery_V1.0/GCF_000949405.1_V.emery_V1.0_cds_from_genomic.fna.gz,Veme
-NA,Veme
+NA,Cvar
