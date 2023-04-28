@@ -30,7 +30,6 @@ while read -r GenomeLine; do
 	#New Folder for unedited genomes
 	mkdir OriginalGenomes
 
-	cp $filename OriginalGenomes
-	cp $speciesCode'_genomeAssembly.fna'
+	mv $speciesCode'_genomeAssembly.fna' ./OriginalGenomes/
 	
 done <GenomeList.txt
