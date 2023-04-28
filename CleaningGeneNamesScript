@@ -1,18 +1,10 @@
 #!/bin/bash
 
-#replace -
-sed -i -e 's/-/_/g' ./Acha_genomeAssembly.fna
-
-#replace (
-sed -i -e 's/(/_/g' ./Acha_genomeAssembly.fna
-
-#replace )
-sed -i -e 's/)/_/g' ./Acha_genomeAssembly.fna
 
 while read -r GenomeLine; do
 echo $GenomeLine
 	export speciesCode=`echo "$GenomeLine" | awk -F',' '{print $2}'`
-	export filename=./$speciesCode'_genomeAssembly.fna'
+	export filename=./OriginalGenomes/$speciesCode'_genomeAssembly.fna'
 	sed -i -e 's/-/_/g' $filename
 	sed -i -e 's/(/_/g' $filename
 	sed -i -e 's/)/_/g' $filename
