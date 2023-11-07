@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#gunzip ./01_GenomeDownloads/Acep_genomeAssembly.fna.gz
+
+#TransDecoder.LongOrfs -t ./01_GenomeDownloads/Acep_genomeAssembly.fna
+
+#TransDecoder.Predict -t ./01_GenomeDownloads/Acep_genomeAssembly.fna [ homology options ]
+
+# have to retain variable from previous script 
+
+mkdir ./02_TransDecoderGenomes
+
+
+  while read -r line;
+  do 
+  
+	export SpeciesCode=`echo "$line" | awk -F',' '{print $2}'`
+  
+	gunzip ./01_GenomeDownloads/$SpeciesCode"_genomeAssembly.fna.gz"
+  
+	echo $SpeciesCode
+	
+	./TransDecoder-TransDecoder-v5.7.0/TransDecoder.LongOrfs -t ./01_GenomeDownloads/$SpeciesCode'_genomeAssembly.fna'
+
+	./TransDecoder-TransDecoder-v5.7.0/TransDecoder.Predict -t ./01_GenomeDownloads/$SpeciesCode'_genomeAssembly.fna'
+  
+	mv  $SpeciesCode"_genomeAssembly.fna.transdecoder_dir" 02_TransDecoderGenomes/$SpeciesCode"_genomeAssembly.fna.transdecoder_dir"
+
+  done < $1
