@@ -1,0 +1,21 @@
+#!/bin/bash
+
+mkdir ./01_GenomeDownloads
+
+  # While reading each line
+  while read -r line;
+  do
+      # Echo the the contents stored in $line
+      echo $line
+      # Create the transcriptUrl variable for downloading:
+      export transcriptUrl=`echo "$line" | awk -F',' '{print $1}'`
+        
+      # Create the speciesCode variable for naming the file:
+      export speciesCode=`echo "$line" | awk -F',' '{print $2}'`
+        
+      # Create the filename variable to standardize the names of files starting with their species code:
+      export filename=$speciesCode'_genomeAssembly.fna.gz'
+
+      # Download the genome - The filename using species code is in $filename and URL is stored in $transcriptUrl:
+      wget -O ./01_GenomeDownloads/$filename $transcriptUrl
+  done < $1
