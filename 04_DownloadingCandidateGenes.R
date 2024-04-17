@@ -2,6 +2,10 @@ library(tidyverse)
 library(rentrez)
 library(phylotools)
 library(googlesheets4)
+library(rBLAST)
+
+Sys.setenv(PATH = paste(Sys.getenv("PATH"), "/programs/ncbi-blast-2.10.1/bin/", sep= .Platform$path.sep))
+
 GeneInfo <- read_sheet("https://docs.google.com/spreadsheets/d/1DySMVPuDZMm3t5AzumYd9LzMyeJ9pSnt8n-X2VAqVDk/edit?usp=sharing")
 TestGeneID <- "105201597"
 
@@ -27,6 +31,7 @@ DownloadCandidateGenes <- function(LocusNumber) {
                id = ProteinID,
                rettype = "fasta") %>% 
     write(file = ExportFilename)
+}
 
 #Send error message instead of stopping download for NA rows 
 PossiblyDownloadCandidateGenes <- possibly(DownloadCandidateGenes, otherwise = "error")
@@ -48,8 +53,26 @@ if (file.exists("ListOfGenomesAASequences.fasta")) {
   dat2fasta(ListOfAAGenomes, outfile = "ListOfGenomesAASequences.fasta")
   
 }
+#Make the database for blast
+makeblastdb(file = "ListOfGenomesAASequences.fasta", dbtype = "prot")
 
+#Store a search that will be used for blast (p for protein sequences)
+blastsearch <- blast(db = "ListOfGenomesAASequences.fasta", type = "blastp")
 
+#make blastcandidategene function that will be run over candidate gene list
+blastCandidateGene <- function(CandidateGeneFile) {
+  querysequence <- readAAStringSet(CandidateGeneFile, format = "fasta")
+  #run blast and store results in blastresults
+  blastresults <- predict(blastsearch, querysequence, BLAST_args = "-max_target_seqs 1")
+  return(blastresults)
+}
 
+#make a list of candidate genes for blast
+ListCandidateGenes <- list.files(path = "./CandidateGenes/", full.names = TRUE)
 
+#prevent loop from stopping at error
+PossiblyBlastCandidateGene <- possibly(blastCandidateGene, otherwise = "error")
+
+#Loop over ListCandidateGenes to blast all specific candidate genes and store in CandidateGeneBlastResults
+CandidateGeneBlastResults <- map(ListCandidateGenes, PossiblyBlastCandidateGene)
 
